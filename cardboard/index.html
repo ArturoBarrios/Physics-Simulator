@@ -78,19 +78,31 @@
                 var oriY = res[5];
                 var oriZ = res[6];
                 var magnitude = res[7];
-
-                //create vector
-                createVector(posX,posY,posZ,atomType,oriX,oriY,oriZ,magnitude);
+                console.log(posX," ",posY," ",posZ," ",atomType)
+                var color = (atomType == 1 ? 0x00ff00 : 0xf00000);
+                var arrow = new THREE.ArrowHelper(
+                  // first argument is the direction
+                  new THREE.Vector3(oriX, oriY, oriZ).normalize(),
+                  // second argument is the orgin
+                  new THREE.Vector3(posX, posY, posZ),
+                  // length
+                  100,
+                  // color
+                  color);
+                  scene.add(arrow);
+                // //create vector
+                // // createVector(posX,posY,posZ,atomType,oriX,oriY,oriZ,magnitude);
+                //  var dir = new THREE.Vector3( getRandomInt(10), getRandomInt(10), getRandomInt(10) );
+                // dir.normalize();
+                //
+                // var origin = new THREE.Vector3( getRandomInt(10), getRandomInt(10), getRandomInt(10) );
+                // var length = 10;
+                // var hex = 0xffff00;
+                //
+                // var arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex );
+                // scene.add( arrowHelper );
               }
-             //  var dir = new THREE.Vector3( 1, 2, 0 );
-             // dir.normalize();
-             //
-             // var origin = new THREE.Vector3( 0, 0, 10 );
-             // var length = 10;
-             // var hex = 0xffff00;
-             //
-             // var arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex );
-             // scene.add( arrowHelper );
+
     				}
 
     				reader.readAsText(file);
