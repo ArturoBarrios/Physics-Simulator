@@ -62,12 +62,13 @@
             var posX = res[0];
             var posY = res[1];
             var posZ = res[2];
-            var atomType = res[3];
+            var atomType = Math.round(res[3]);
             var oriX = res[4];
             var oriY = res[5];
             var oriZ = res[6];
-            var magnitude = res[7];
+            var magnitude = magnitudeScaling(res[7]);
             //create vector
+            createVector(posX,posY,posZ,atomType,oriX,oriY,oriZ,magnitude);
           }
 				}
 
@@ -111,7 +112,7 @@
 
       camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
 
-      createVector(10,10,10,1,19,7,2,30);
+      //createVector(10,10,10,1,19,7,2,30);
 
 
       camera.position.set(0, 10, 0);
@@ -217,6 +218,7 @@
         container.webkitRequestFullscreen();
       }
     }
+    /*
     function magnitudeScaling(input) {
      function log10(val) {
       return Math.log(val) / Math.LN10;
@@ -224,6 +226,12 @@
       //return (99/12) * log10(input) + 116.5;
       return (99/14) * log10(input) + 100.5;
     }
+  */
+  function magnitudeScaling(input) {
+     input *= 100;
+     return Math.pow(input,2);
+    }
+
   </script>
   </body>
 </html>
