@@ -16,10 +16,25 @@
         right: 0;
         bottom: 0;
       }
+      #ui {
+  position: absolute;
+}
     </style>
   </head>
   <body>
-    <div id="example"></div>
+    <div id="example">
+      <!-- <button  onclick="" style="top:0" id="fire" class="ui">Choose File</button> -->
+      <div id="page-wrapper">
+
+		<h1>Text File Reader</h1>
+		<div>
+			Select a text file:
+			<input type="file" id="fileInput" class="ui">
+		</div>
+		<pre id="fileDisplayArea"><pre>
+
+	</div>
+    </div>
 
   <script src="js/third-party/threejs/three.js"></script>
   <script src="js/third-party/threejs/StereoEffect.js"></script>
@@ -27,6 +42,42 @@
   <script src="js/third-party/threejs/OrbitControls.js"></script>
 
   <script>
+///////////////////////////////////
+  window.onload = function() {
+		var fileInput = document.getElementById('fileInput');
+		var fileDisplayArea = document.getElementById('fileDisplayArea');
+
+		fileInput.addEventListener('change', function(e) {
+			var file = fileInput.files[0];
+			var textType = /text.*/;
+
+			if (file.type.match(textType)) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+
+          var lines = reader.result.split(/[\r\n]+/g);
+          for(var i = 0; i < lines.length; i++) {
+            var res = lines[i].split(" ")
+            //parameters for creating vector
+            var posX = res[0];
+            var posY = res[1];
+            var posZ = res[2];
+            var atomType = res[3];
+            var oriX = res[4];
+            var oriY = res[5];
+            var oriZ = res[6];
+            var magnitude = res[7];
+            //create vector
+          }
+				}
+
+				reader.readAsText(file);
+			} else {
+				fileDisplayArea.innerText = "File not supported!"
+			}
+		});
+}
+/////////////////////////////////////////////////////////////
     var camera, scene, renderer;
     var effect, controls;
     var element, container;
@@ -35,7 +86,9 @@
 
     init();
     animate();
+    function createVector(posX,posY,posZ,atomType,oriX,oriY,oriZ,magnitude){
 
+    }
     function init() {
       renderer = new THREE.WebGLRenderer();
       element = renderer.domElement;
@@ -47,17 +100,21 @@
       scene = new THREE.Scene();
 
       camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
-      var dir = new THREE.Vector3( 1, 2, 0 );
+
+
+
+
 
       //normalize the direction vector (convert to vector of length 1)
-      dir.normalize();
-
-      var origin = new THREE.Vector3( 0, 0, 10 );
-      var length = 10;
-      var hex = 0xffff00;
-
-      var arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex );
-      scene.add( arrowHelper );
+      // var dir = new THREE.Vector3( 1, 2, 0 );
+      // dir.normalize();
+      //
+      // var origin = new THREE.Vector3( 0, 0, 10 );
+      // var length = 10;
+      // var hex = 0xffff00;
+      //
+      // var arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex );
+      // scene.add( arrowHelper );
       camera.position.set(0, 10, 0);
       scene.add(camera);
 
@@ -138,8 +195,12 @@
     function render(dt) {
       effect.render(scene, camera);
     }
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max));
+    }
 
     function animate(t) {
+
       requestAnimationFrame(animate);
 
       update(clock.getDelta());
