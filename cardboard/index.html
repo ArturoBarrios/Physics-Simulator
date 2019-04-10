@@ -111,12 +111,13 @@
     function createVector(posX,posY,posZ,atomType,oriX,oriY,oriZ,magnitude){
 
 
-      //console.log(posX + "-" + posY + "-" + posZ + "-" + atomType + "-" +oriX + "-" +oriY + "-" +oriZ + "-" +magnitude)
+
 
       var dir = new THREE.Vector3( oriX, oriY, oriZ);
       dir.normalize();
       console.log(parseInt(posY)+30)
-      var origin = new THREE.Vector3(posX*10, (parseInt(posY)+30)*10, posZ*10);
+      var origin = new THREE.Vector3((parseInt(posX)+22)*200, (parseInt(posY)+22)*200, (parseInt(posZ)+2)*(200/9));
+      // console.log(posX*5, (parseInt(posY)+30)*5, posZ*5)
       var length = magnitudeScaling(magnitude);
       var hex = 0xffff00;
 
@@ -149,7 +150,7 @@
       //
       // var arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex );
       // scene.add( arrowHelper );
-      camera.position.set(0, 10, 0);
+      camera.position.set(-55,300,0);
       scene.add(camera);
 
       controls = new THREE.OrbitControls(camera, element);
@@ -253,10 +254,7 @@
       }
     }
     function magnitudeScaling(input) {
-     input *= 5.6;
-    
-
-     return Math.pow(input,2);
+    return ((9/.1)*Math.abs(input))+1;
     }
   </script>
   </body>
