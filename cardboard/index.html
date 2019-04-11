@@ -113,7 +113,7 @@
 
 
       var newPosX = (parseInt(posX)+22)*200;
-      var newPosY = (parseInt(posY)+22)*200;
+      var newPosY = (parseInt(posY)+22)*(300/7);
       var newPosZ = (parseInt(posZ)+2)*(200/9);
 
       var dir = new THREE.Vector3( oriX, oriY, oriZ);
@@ -265,7 +265,8 @@
       }
     }
     function magnitudeScaling(input) {
-    return ((9/.1)*Math.abs(input))+1;
+    var newInt = ((9/.1)*Math.abs(input))+1;
+    return newInt/2;
     }
   </script>
   </body>
