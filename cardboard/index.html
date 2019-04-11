@@ -26,7 +26,7 @@
       <!-- <button  onclick="" style="top:0" id="fire" class="ui">Choose File</button> -->
       <div id="page-wrapper">
 
-		<h1>Text File Reader</h1>
+		<h1>Quantum Physics Data Visualization</h1>
 		<div>
 			Select a text file:
 			<input type="file" id="fileInput" class="ui">
@@ -147,7 +147,38 @@
       camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
 
 
-    
+    var geometry = new THREE.CubeGeometry( 800, 700, 800 );
+    //geometry.posY = 300;
+    //geometry.posX = 60;
+    geometry.translate(60,300,0);
+    var cubeMaterials = [
+    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load( 'textures/patterns/skybox.png' ), side: THREE.DoubleSide }), //front side
+    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load( 'textures/patterns/skybox.png' ), side: THREE.DoubleSide }), //back side
+    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load( 'textures/patterns/skybox.png' ), side: THREE.DoubleSide }), //up side
+    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load( 'textures/patterns/skybox.png' ), side: THREE.DoubleSide }), //down side
+    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load( 'textures/patterns/skybox.png' ), side: THREE.DoubleSide }), //right side
+    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load( 'textures/patterns/skybox.png' ), side: THREE.DoubleSide }) //left side
+    ];
+
+    var cubeMaterial = new THREE.MeshFaceMaterial( cubeMaterials );
+    var cube = new THREE.Mesh( geometry, cubeMaterial );
+
+    scene.add( cube );
+
+    var size = 1000;
+    var divisions = 100;
+
+    var gridHelper = new THREE.GridHelper( size, divisions );
+    scene.add( gridHelper );
+
+    // gridHelper = new THREE.GridHelper( size, divisions );
+    // gridHelper.rotateZ(Math.PI/2);
+    // scene.add( gridHelper );
+
+    // gridHelper = new THREE.GridHelper( size, divisions );
+    // gridHelper.rotateZ(Math.PI/2);
+    // gridHelper.translate(200,200,800);
+    // scene.add( gridHelper );
 
 
 
@@ -213,7 +244,7 @@
 
       var mesh = new THREE.Mesh(geometry, material);
       mesh.rotation.x = -Math.PI / 2;
-      scene.add(mesh);
+      //scene.add(mesh);
 
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
