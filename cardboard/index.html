@@ -119,10 +119,12 @@
       var origin = new THREE.Vector3((parseInt(posX)+22)*200, (parseInt(posY)+22)*200, (parseInt(posZ)+2)*(200/9));
       // console.log(posX*5, (parseInt(posY)+30)*5, posZ*5)
       var length = magnitudeScaling(magnitude);
-      var hex = 0xffff00;
+      var hex = (atomType == 1 ? 0xffff00 : 0x00ff00);
 
-      var arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex );
+      var arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex  );
       scene.add( arrowHelper );
+
+
     }
     function init() {
       renderer = new THREE.WebGLRenderer();
@@ -137,6 +139,7 @@
       camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
 
 
+    
 
 
 
@@ -150,7 +153,7 @@
       //
       // var arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex );
       // scene.add( arrowHelper );
-      camera.position.set(-55,300,0);
+      camera.position.set(60,300,-160);
       scene.add(camera);
 
       controls = new THREE.OrbitControls(camera, element);
