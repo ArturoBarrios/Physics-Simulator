@@ -26,7 +26,7 @@
       <!-- <button  onclick="" style="top:0" id="fire" class="ui">Choose File</button> -->
       <div id="page-wrapper">
 
-		<h1>Quantum Physics Data Visualization</h1>
+		<h1>Text File Reader</h1>
 		<div>
 			Select a text file:
 			<input type="file" id="fileInput" class="ui">
@@ -40,8 +40,13 @@
   <script src="js/third-party/threejs/StereoEffect.js"></script>
   <script src="js/third-party/threejs/DeviceOrientationControls.js"></script>
   <script src="js/third-party/threejs/OrbitControls.js"></script>
+  <script src="js/third-party/threejs/FlyControls.js"></script>
 
   <script>
+
+    var radius = 6371;
+    var tilt = 0.41;
+    var rotationSpeed = 0.02;
 
     var camera, scene, renderer;
     var effect, controls;
@@ -80,7 +85,7 @@
             animate()
     				var reader = new FileReader();
     				reader.onload = function(e) {
-              
+
 
               var lines = reader.result.split(/[\r\n]+/g);
               for(var i = 0; i < lines.length; i++) {
@@ -147,38 +152,7 @@
       camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
 
 
-    var geometry = new THREE.CubeGeometry( 800, 700, 800 );
-    //geometry.posY = 300;
-    //geometry.posX = 60;
-    geometry.translate(60,300,0);
-    var cubeMaterials = [
-    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load( 'textures/patterns/skybox.png' ), side: THREE.DoubleSide }), //front side
-    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load( 'textures/patterns/skybox.png' ), side: THREE.DoubleSide }), //back side
-    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load( 'textures/patterns/skybox.png' ), side: THREE.DoubleSide }), //up side
-    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load( 'textures/patterns/skybox.png' ), side: THREE.DoubleSide }), //down side
-    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load( 'textures/patterns/skybox.png' ), side: THREE.DoubleSide }), //right side
-    new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load( 'textures/patterns/skybox.png' ), side: THREE.DoubleSide }) //left side
-    ];
 
-    var cubeMaterial = new THREE.MeshFaceMaterial( cubeMaterials );
-    var cube = new THREE.Mesh( geometry, cubeMaterial );
-
-    scene.add( cube );
-
-    var size = 1000;
-    var divisions = 100;
-
-    var gridHelper = new THREE.GridHelper( size, divisions );
-    scene.add( gridHelper );
-
-    // gridHelper = new THREE.GridHelper( size, divisions );
-    // gridHelper.rotateZ(Math.PI/2);
-    // scene.add( gridHelper );
-
-    // gridHelper = new THREE.GridHelper( size, divisions );
-    // gridHelper.rotateZ(Math.PI/2);
-    // gridHelper.translate(200,200,800);
-    // scene.add( gridHelper );
 
 
 
@@ -192,33 +166,32 @@
       //
       // var arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex );
       // scene.add( arrowHelper );
-      camera.position.set(60,300,-160);
+      camera.position.set(60,200,-200);
+      camera.rotation.y = 3;
       scene.add(camera);
 
-      controls = new THREE.OrbitControls(camera, element);
-      controls.rotateUp(Math.PI / 4);
-      controls.target.set(
-        camera.position.x + 0.1,
-        camera.position.y,
-        camera.position.z
-      );
-      controls.noZoom = true;
-      controls.noPan = true;
 
-      function setOrientationControls(e) {
-        if (!e.alpha) {
-          return;
-        }
 
-        controls = new THREE.DeviceOrientationControls(camera, true);
-        controls.connect();
-        controls.update();
-
-        element.addEventListener('click', fullscreen, false);
-
-        window.removeEventListener('deviceorientation', setOrientationControls, true);
-      }
-      window.addEventListener('deviceorientation', setOrientationControls, true);
+      // function setOrientationControls(e) {
+      //   if (!e.alpha) {
+      //     return;
+      //   }
+      //
+      //   controls = new THREE.DeviceOrientationControls(camera, true);
+      //   controls.connect();
+      //   controls.update();
+      //
+      //   element.addEventListener('click', fullscreen, false);
+      //
+      //   window.removeEventListener('deviceorientation', setOrientationControls, true);
+      // }
+      controls = new THREE.FlyControls( camera );
+			controls.movementSpeed = 1000;
+			controls.domElement = renderer.domElement;
+			controls.rollSpeed = Math.PI / 10;
+			controls.autoForward = false;
+			controls.dragToLook = false;
+      // window.addEventListener('deviceorientation', setOrientationControls, true);
 
 
       var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
@@ -244,7 +217,7 @@
 
       var mesh = new THREE.Mesh(geometry, material);
       mesh.rotation.x = -Math.PI / 2;
-      //scene.add(mesh);
+      scene.add(mesh);
 
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
@@ -270,6 +243,7 @@
     }
 
     function render(dt) {
+      controls.movementSpeed = 100;
       effect.render(scene, camera);
     }
     function getRandomInt(max) {
