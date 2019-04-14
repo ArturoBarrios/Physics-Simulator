@@ -269,9 +269,16 @@
         container.webkitRequestFullscreen();
       }
     }
-    function magnitudeScaling(input) {
+    function oldMagnitudeScaling(input) {
     var newInt = ((9/.1)*Math.abs(input))+1;
     return newInt/2;
+    }
+    function magnitudeScaling(input) {
+     function log10(val) {
+      return Math.log(val) / Math.LN10;
+      }
+      //return (99/12) * log10(input) + 116.5;
+      return (99/14) * log10(input) + 100.5;
     }
   </script>
   </body>
