@@ -132,11 +132,8 @@
       var arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex  );
       scene.add( arrowHelper );
 
-      var geometry = new THREE.SphereBufferGeometry(5);
-      geometry.translate(newPosX, newPosY, newPosZ);
-      var material = new THREE.MeshBasicMaterial( {color: 0xffffff} );
-      var sphere = new THREE.Mesh( geometry, material );
-      scene.add( sphere );
+      
+
 
     }
     function init() {
@@ -273,6 +270,8 @@
     var newInt = ((9/.1)*Math.abs(input))+1;
     return newInt/2;
     }
+
+
     function magnitudeScaling(input) {
      function log10(val) {
       return Math.log(val) / Math.LN10;
