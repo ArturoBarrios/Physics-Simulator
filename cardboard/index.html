@@ -98,7 +98,8 @@
                 var oriX = res[5];
                 var oriY = res[6];
                 var oriZ = res[7];
-                var magnitude = magnitudeScaling(res[8]);
+                var magnitude = res[8];
+                //console.log(magnitude);
                 //console.log(res.length);
                 createVector(posX,posY,posZ,atomType, oriX,oriY,oriZ,magnitude);
               }
@@ -117,22 +118,45 @@
 
 
 
-      var newPosX = (parseInt(posX)+22)*200;
-      var newPosY = (parseInt(posY)+22)*(300/7);
-      var newPosZ = (parseInt(posZ)+2)*(200/9);
+      var newPosX = (parseInt(posX)+17)*(1000/34);
+      var newPosY = (parseInt(posY)+17)*(1000/34);
+      var newPosZ = (parseInt(posZ)+10)*(1000/27);
 
       var dir = new THREE.Vector3( oriX, oriY, oriZ);
       dir.normalize();
-      console.log(parseInt(posY)+30)
       var origin = new THREE.Vector3(newPosX, newPosY, newPosZ);
       // console.log(posX*5, (parseInt(posY)+30)*5, posZ*5)
       var length = magnitudeScaling(magnitude);
-      var hex = (atomType == 1 ? 0xffff00 : 0x00ff00);
+      function hexRatio(val)
+      {
+        return ((Math.ceil(val / 100 * 16)-1).toString(16));
+      }
 
-      var arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex  );
+      // console.log(magnitude);
+      // console.log(length);
+      // console.log(hexRatio(length));
+      var hexVal = hexRatio(length);
+      var ratio ="0x" + hexVal
+      console.log(hexVal);
+      
+
+
+      if (parseInt(hexVal,16) > 9)
+      {
+        var hex = 0x00ff00 + (0xf * 0x110000) - (0xf * ratio * 0x001100); 
+      }
+      else
+      {
+        var hex = 0x00ff00 + (2 * ratio * 0x110000) - (2 * ratio * 0x001100); 
+      }
+           
+ 
+      //console.log(hex.toString(16));
+
+      var arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex);
       scene.add( arrowHelper );
 
-      
+
 
 
     }
@@ -277,7 +301,7 @@
       return Math.log(val) / Math.LN10;
       }
       //return (99/12) * log10(input) + 116.5;
-      return (99/14) * log10(input) + 100.5;
+      return (99/15) * log10(input) + 100;
     }
   </script>
   </body>
